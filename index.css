@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* 整體背景色，如果需要 */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background-color: white;
+    padding: 15px 0;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+header .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.purple-bg {
+    background-color: #CB7CEC;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-section {
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.image-placeholder {
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.image-placeholder img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.image-placeholder.circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.text-area {
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.portfolio-section {
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.portfolio-section h2 {
+    color: white;
+    margin-bottom: 30px;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    justify-items: center;
+}
+
+.portfolio-item {
+    width: 250px;
+    height: 200px;
+}
+
+
+@media (max-width: 768px) {
+    .profile-content {
+        flex-direction: column;
+    }
+
+    .profile-content .text-area {
+        width: 90%;
+        margin-top: 20px; /* 調整間距 */
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .portfolio-item {
+        width: 200px;
+        height: 150px;
+    }
+}
