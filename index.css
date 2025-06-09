@@ -2,17 +2,20 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0; /* 整體背景色，如果需要 */
+    overflow-x: hidden; /* 保留，以防萬一 */
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1200px; /* 限制內容寬度 */
     margin: 0 auto;
     padding: 0 20px;
 }
 
+/* Header 樣式 */
 header {
     background-color: white;
     padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 header .logo {
@@ -24,80 +27,92 @@ header .logo {
 }
 
 header .logo img {
-    height: 40px;
+    height: 40px; /* LOGO圖片大小 */
     margin-right: 10px;
 }
 
+/* 主要內容區域紫色背景 */
 .purple-bg {
     background-color: #CB7CEC;
     padding: 50px 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* 水平置中所有內容 */
 }
 
+/* 個人簡介區塊 */
 .profile-section {
     width: 100%;
-    max-width: 900px;
+    max-width: 900px; /* 限制簡介區塊寬度 */
     margin-bottom: 50px;
-    display: flex;
-    justify-content: center;
+    display: flex; /* 使用flexbox佈局 */
+    justify-content: center; /* 內容水平置中 */
 }
 
 .profile-content {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
+    align-items: center; /* 垂直置中 */
+    justify-content: center; /* 水平置中 */
+    gap: 40px; /* 照片和文字之間的間距 */
+    flex-wrap: wrap; /* 讓內容在小螢幕上換行 */
 }
 
 .image-placeholder {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.5); /* 半透明白色背景 */
     display: flex;
     justify-content: center;
     align-items: center;
     color: #666;
     font-size: 14px;
     text-align: center;
-    position: relative;
-    overflow: hidden;
+    position: relative; /* 保持相對定位 */
+    overflow: hidden; /* 保持圖片裁剪效果 */
+    cursor: pointer; /* 添加鼠標指針，表示可點擊 */
+    /* 為交換動畫添加過渡效果 */
+    transition: transform 0.5s ease-in-out;
 }
 
 .image-placeholder img {
     max-width: 100%;
     max-height: 100%;
-    object-fit: cover;
-    position: absolute;
+    object-fit: cover; /* 讓圖片填滿空間並保持比例 */
+    position: absolute; /* 圖片在容器內絕對定位 */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
 }
 
+.image-placeholder span {
+    z-index: 1; /* 讓文字在圖片上方 */
+    background-color: rgba(255, 255, 255, 0.7); /* 文字背景，讓文字更清晰 */
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
 .image-placeholder.circle {
     width: 200px;
     height: 200px;
-    border-radius: 50%;
+    border-radius: 50%; /* 圓形 */
 }
 
 .text-area {
-    background-color: rgba(255, 255, 255, 0.5);
-    width: 400px;
+    background-color: rgba(255, 255, 255, 0.5); /* 半透明白色背景 */
+    width: 400px; /* 文字區域寬度 */
     padding: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center; /* 文字內容置中 */
     text-align: center;
 }
 
-
+/* 作品集區塊 */
 .portfolio-section {
     width: 100%;
-    max-width: 1000px;
-    text-align: center;
+    max-width: 1000px; /* 限制作品集區塊寬度 */
+    text-align: center; /* 標題置中 */
     margin-bottom: 50px;
 }
 
@@ -108,29 +123,29 @@ header .logo img {
 
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 響應式網格，至少250px */
+    gap: 30px; /* 網格間距 */
+    justify-items: center; /* 網格項目水平置中 */
 }
 
 .portfolio-item {
-    width: 250px;
-    height: 200px;
+    width: 250px; /* 作品項目寬度 */
+    height: 200px; /* 作品項目高度 */
 }
 
-
+/* 響應式設計 */
 @media (max-width: 768px) {
     .profile-content {
-        flex-direction: column;
+        flex-direction: column; /* 小螢幕時垂直堆疊 */
     }
 
     .profile-content .text-area {
-        width: 90%;
+        width: 90%; /* 小螢幕時文字區域佔寬度 */
         margin-top: 20px; /* 調整間距 */
     }
 
     .portfolio-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 小螢幕時作品集網格調整 */
         gap: 20px;
     }
 

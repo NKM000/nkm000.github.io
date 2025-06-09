@@ -1,80 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
     const portfolioItems = document.querySelectorAll('.portfolio-item');
-    const profileImage = document.querySelector('.profile-section .image-placeholder.circle');
+    const profileImage = document.querySelector('.profile-section .image-placeholder.circle'); // 個人圖片
 
-    // 函數：生成隨機的移動和縮放值
-    function getRandomTransform() {
-        const maxX = window.innerWidth * 1.5; // 可以跑到畫面外1.5倍的寬度
-        const maxY = window.innerHeight * 1.5; // 可以跑到畫面外1.5倍的高度
-        const minScale = 0.5;
-        const maxScale = 2.0;
+    // 只有作品集圖片參與交換
+    const swappablePortfolioImages = Array.from(portfolioItems); // 轉換為數組，只包含作品集圖片
 
-        const randomX = (Math.random() * maxX * 2) - maxX; // 隨機正負值
-        const randomY = (Math.random() * maxY * 2) - maxY;
-        const randomScale = Math.random() * (maxScale - minScale) + minScale;
-        const randomRotate = Math.random() * 360; // 0-360度旋轉
+    // 函數：交換兩個元素的內容（圖片和文字）
+    function swapContent(element1, element2) {
+        // 暫存 element1 的內容
+        const tempImgSrc = element1.querySelector('img') ? element1.querySelector('img').src : null;
+        const tempImgAlt = element1.querySelector('img') ? element1.querySelector('img').alt : null;
+        const tempSpanText = element1.querySelector('span') ? element1.querySelector('span').textContent : '';
 
-        return `translate(${randomX}px, ${randomY}px) scale(${randomScale}) rotate(${randomRotate}deg)`;
-    }
-
-    // 函數：讓圖片開始亂跑
-    function startChaos(element) {
-        // 儲存原始樣式，以便之後恢復
-        if (!element.dataset.originalStyle) {
-            element.dataset.originalStyle = element.style.cssText;
+        // 將 element2 的內容賦給 element1
+        if (element1.querySelector('img') && element2.querySelector('img')) {
+            element1.querySelector('img').src = element2.querySelector('img').src;
+            element1.querySelector('img').alt = element2.querySelector('img').alt;
+        }
+        if (element1.querySelector('span') && element2.querySelector('span')) {
+            element1.querySelector('span').textContent = element2.querySelector('span').textContent;
         }
 
-        element.classList.add('chaos-mode'); // 添加一個標記class
-        element.style.transition = 'transform 3s ease-in-out'; // 更平滑的動畫
-        element.style.position = 'absolute'; // 確保可以自由定位
-        element.style.zIndex = '1000'; // 讓它在最上層
-
-        // 啟動一個Interval，每隔一段時間改變位置和大小
-        element.chaosInterval = setInterval(() => {
-            element.style.transform = getRandomTransform();
-        }, 3000); // 每3秒換一次位置和大小
-    }
-
-    // 函數：讓圖片回到原位
-    function stopChaos(element) {
-        if (element.chaosInterval) {
-            clearInterval(element.chaosInterval); // 停止interval
-            element.chaosInterval = null;
+        // 將暫存的 element1 內容賦給 element2
+        if (element2.querySelector('img') && tempImgSrc) {
+            element2.querySelector('img').src = tempImgSrc;
+            element2.querySelector('img').alt = tempImgAlt;
         }
-        element.classList.remove('chaos-mode'); // 移除標記class
-        element.style.transition = 'transform 0.5s ease-out'; // 回歸時的過渡效果
-        element.style.transform = 'none'; // 移除所有transform
-        element.style.position = 'relative'; // 恢復相對定位
-        element.style.zIndex = 'auto'; // 恢復z-index
-        // 如果有儲存原始樣式，可以考慮恢復，但通常transform: 'none'就夠了
-        // if (element.dataset.originalStyle) {
-        //     element.style.cssText = element.dataset.originalStyle;
-        // }
+        if (element2.querySelector('span') && tempSpanText !== null) {
+            element2.querySelector('span').textContent = tempSpanText;
+        }
     }
 
-    // 為所有作品集圖片添加點擊事件
-    portfolioItems.forEach(item => {
-        item.addEventListener('click', (event) => {
-            // 阻止事件冒泡，避免點擊子元素時重複觸發
-            event.stopPropagation();
-            if (item.classList.contains('chaos-mode')) {
-                stopChaos(item);
-            } else {
-                startChaos(item);
-            }
+    // 為所有作品集圖片添加點擊事件（個人圖片不在此列）
+    swappablePortfolioImages.forEach(item => {
+        item.addEventListener('click', () => {
+            // 隨機選擇另一個不同的作品集圖片
+            let randomIndex;
+            let targetItem;
+
+            do {
+                randomIndex = Math.floor(Math.random() * swappablePortfolioImages.length);
+                targetItem = swappablePortfolioImages[randomIndex];
+            } while (targetItem === item); // 確保選中的不是自己
+
+            // 執行交換
+            swapContent(item, targetItem);
         });
     });
 
-
-    // 點擊頁面其他地方時停止所有正在亂跑的圖片
-    document.body.addEventListener('click', () => {
-        portfolioItems.forEach(item => {
-            if (item.classList.contains('chaos-mode')) {
-                stopChaos(item);
-            }
-        });
-        if (profileImage && profileImage.classList.contains('chaos-mode')) {
-            stopChaos(profileImage);
-        }
-    });
+    // 個人圖片不添加點擊事件，或者添加一個空的回調函數（確保它沒有其他行為）
+    if (profileImage) {
+        profileImage.style.cursor = 'default'; // 將鼠標指針改回默認，表示不可點擊交換
+        // profileImage.addEventListener('click', () => {
+        //     console.log("個人圖片固定不動。");
+        // });
+    }
 });
